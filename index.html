@@ -155,14 +155,29 @@
 
       <section class="screen photos" data-step="9">
         <div class="eyebrow">07 — FOTOĞRAFLAR</div>
-        <h2>Burada aslında <em>sen olacaktın.</em></h2>
+        <h2>Burada <em>3 fotoğrafın</em> olacaktı.</h2>
+        <p class="photo-intro">Ama küçük bir problem var...</p>
+
         <div class="photo-stack" id="photoStack">
-          <article class="photo p1 empty-photo"><div><span>FOTOĞRAF YOK</span></div><p>Instagram'da engelden çıkarsaydın, burada senin fotoğrafın olacaktı.</p></article>
-          <article class="photo p2 empty-photo"><div><span>HALA YOK :)</span></div><p>Ama çıkarmadığın için burası şimdilik boş.</p></article>
-          <article class="photo p3 empty-photo"><div><span>?</span></div><p>Belki bir gün bu üç kart gerçekten senin fotoğraflarınla dolar.</p></article>
+          <article class="photo p1 empty-photo">
+            <div class="missing-photo"><span>01</span><b>FOTOĞRAF YOK</b><i></i></div>
+          </article>
+          <article class="photo p2 empty-photo">
+            <div class="missing-photo"><span>02</span><b>FOTOĞRAF YOK</b><i></i></div>
+          </article>
+          <article class="photo p3 empty-photo">
+            <div class="missing-photo"><span>03</span><b>FOTOĞRAF YOK</b><i></i></div>
+          </article>
         </div>
-        <p class="muted">Kartları sağa-sola at. Üçünü də gör.</p>
-        <button class="next" id="photosNext" data-next disabled>hamısını gördüm →</button>
+
+        <div class="photo-explain">
+          <span>SEBEP:</span>
+          <p>Instagram'da beni engelden çıkarsaydın burada senin fotoğrafların olacaktı.</p>
+          <small>Ama çıkarmadığın için şimdilik üçü de boş :)</small>
+        </div>
+
+        <p class="muted center" id="photoHint">Üç boş kartı da sağa veya sola kaydır.</p>
+        <button class="next" id="photosNext" data-next disabled>tamam, anladım →</button>
       </section>
 
       <section class="screen" data-step="10">
