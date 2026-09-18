@@ -434,3 +434,63 @@
 .photos .photo-explain span{font:700 10px ui-monospace,monospace;letter-spacing:.17em;color:#f1536d}
 .photos .photo-explain p{font-size:17px;line-height:1.45;margin:8px 0 5px;color:#eee6e9}
 .photos .photo-explain small{color:#82777b;line-height:1.5}
+
+/* PHOTO MOBILE HOTFIX — cards must stay visible inside one phone viewport */
+@media (max-width:600px){
+  .screen.photos.active{
+    justify-content:flex-start!important;
+    overflow-y:auto!important;
+    padding-top:76px!important;
+    padding-bottom:38px!important;
+  }
+  .photos h2{
+    font-size:clamp(38px,12vw,56px)!important;
+    line-height:.88!important;
+    margin:10px 0 4px!important;
+    max-width:330px;
+  }
+  .photos .photo-intro{margin:0 0 8px!important;font-size:12px}
+  .photos .photo-stack{
+    display:block!important;
+    position:relative!important;
+    width:100%!important;
+    height:285px!important;
+    min-height:285px!important;
+    margin:12px 0 18px!important;
+    overflow:visible!important;
+  }
+  .photos .photo{
+    display:block!important;
+    position:absolute!important;
+    top:0!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:min(78vw,300px)!important;
+    height:270px!important;
+    padding:8px!important;
+    margin:0!important;
+    opacity:1;
+  }
+  .photos .photo:nth-child(1){transform:translateX(-50%) rotate(-1.5deg)!important;z-index:3}
+  .photos .photo:nth-child(2){transform:translateX(-50%) rotate(2.5deg)!important;z-index:2}
+  .photos .photo:nth-child(3){transform:translateX(-50%) rotate(-3deg)!important;z-index:1}
+  .photos .photo.dragging{transition:none!important}
+  .photos .photo.gone{
+    transform:translateX(90vw) rotate(18deg)!important;
+    opacity:0!important;
+  }
+  .photos .missing-photo{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  .photos .photo-explain{
+    margin:0 0 14px!important;
+    padding:3px 0 3px 12px!important;
+  }
+  .photos .photo-explain p{font-size:14px!important;margin:5px 0 3px!important}
+  .photos .photo-explain small{font-size:11px!important}
+  .photos #photoHint{font-size:11px!important;margin:10px 0 12px!important}
+  .photos #photosNext{margin-top:0!important;min-height:48px}
+}
