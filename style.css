@@ -494,3 +494,11 @@
   .photos #photoHint{font-size:11px!important;margin:10px 0 12px!important}
   .photos #photosNext{margin-top:0!important;min-height:48px}
 }
+
+/* final message — part of the existing last screen, not a new stage */
+.true-final-love{margin-top:48px;padding:30px 0 8px;border-top:1px solid #33252a;position:relative}
+.true-final-love:before{content:"";position:absolute;left:0;top:-1px;width:52px;height:2px;background:var(--red);box-shadow:0 0 18px #f1536d88}
+.true-final-love span{display:block;font:700 10px ui-monospace,monospace;letter-spacing:.18em;color:#7f6e74;margin-bottom:16px}
+.true-final-love strong{display:block;font-family:'DM Sans',system-ui,sans-serif;font-size:clamp(30px,8vw,50px);line-height:1.02;letter-spacing:-.045em;color:#f1536d;text-shadow:0 0 28px #f1536d22}
+.true-final-love p{font-size:16px;color:#c9bec2;margin:14px 0 0}
+@media(max-width:600px){.true-final-love{margin-top:38px}.true-final-love strong{font-size:clamp(31px,10vw,44px)}}
