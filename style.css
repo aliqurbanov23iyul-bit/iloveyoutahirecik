@@ -393,3 +393,11 @@
 .scratch-wrap canvas{transition:opacity 1.6s cubic-bezier(.22,.7,.2,1)}
 .scratch-wrap canvas.completed{opacity:0;pointer-events:none}
 .scratch-reveal.started{transition:opacity .35s ease}
+
+/* Scratch reward visibility hotfix */
+.scratch-reveal,
+.scratch-reveal.started{visibility:hidden!important;opacity:0!important}
+.scratch-reveal.revealed{visibility:visible!important;opacity:1!important;transition:opacity .8s ease!important}
+.scratch-wrap canvas.completed{opacity:0!important;pointer-events:none!important;transition:opacity 1.15s ease!important}
+#scratchNext:disabled{opacity:.35;pointer-events:none}
+#scratchNext:not(:disabled){opacity:1;pointer-events:auto}
