@@ -1,0 +1,8 @@
+{
+  "name": "tahire-side-quest",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@neondatabase/serverless": "latest"
+  }
+}

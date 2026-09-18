@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070708">
+  <title>Tahirə — a little side quest</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <div id="app">
+    <header class="topbar">
+      <span id="stepText">01 / 22</span>
+      <div class="progress"><i id="progress"></i></div>
+      <span class="tiny">KÜÇÜK BİR DÜNYA</span>
+    </header>
+    <main>
+      <section class="screen active intro" data-step="1">
+        <div class="hero-bg"></div>
+        <div class="kicker">GOOD MUSIC / QUESTIONABLE DECISIONS</div>
+        <h1>TAHİRƏ<span>.</span></h1>
+        <p class="lead">Normal insan mesaj yazardı.<br>Mən bir az artıq etdim.</p>
+        <div class="tapline"><span></span> qulaqcıq tövsiyə olunur</div>
+        <button class="primary" data-next>BAŞLA <b>→</b></button>
+      </section>
+
+      <section class="screen" data-step="2">
+        <div class="eyebrow">01 — KISA KONTROL</div>
+        <h2>Bu gün hansı <em>enerjidəsən?</em></h2>
+        <p class="muted">Çox düşünmə. İlk ağlına gələni seç.</p>
+        <div class="choice-grid choices" data-question="mood">
+          <button><span>01</span> yaxşıyam</button><button><span>02</span> qarışıq</button>
+          <button><span>03</span> soyuğam</button><button><span>04</span> şaşırt beni</button>
+        </div>
+        <button class="next" data-next disabled>Davam et →</button>
+      </section>
+
+      <section class="screen heart-screen" data-step="3">
+        <div class="eyebrow">02 — RUH HALİ KARIŞTIRICI</div>
+        <h2>Aramızın <em>ayarları.</em></h2>
+
+        <!-- 3D Heart Stage -->
+        <div class="heart-stage" id="heartStage" aria-label="3D Canlı Anatomik Kalp">
+          <div class="heart-aura" id="heartAura" aria-hidden="true"></div>
+          
+          <!-- Top Monitor HUD -->
+          <div class="heart-hud-top">
+            <span class="hud-tag">TAHİRƏ // HEART MONITOR</span>
+            <span class="hud-live"><i class="live-dot"></i> CANLI</span>
+          </div>
+
+          <!-- 3D WebGL Canvas Container -->
+          <div class="heart-canvas-wrap" id="heartCanvasWrap">
+            <canvas id="heart3dCanvas"></canvas>
+            <div class="heart-loader" id="heartLoader">
+              <span class="loader-pulse"></span>
+              <small>MODEL SİNXRONLAŞDIRILIR...</small>
+            </div>
+            <div class="heart-hint" id="heartHint">
+              <span class="hint-icon">↺</span> 360° toxun və döndər
+            </div>
+          </div>
+
+          <!-- Bottom Monitor HUD / Readout -->
+          <div class="heart-hud-bottom">
+            <div class="heart-readout">
+              <span class="bpm-icon">❤️</span>
+              <span class="bpm-number" id="heartBpm">78</span>
+              <span class="bpm-unit">BPM</span>
+            </div>
+            <div class="heart-status-wrap">
+              <p id="heartMood" class="heart-mood-text">Sakin ama canlı.</p>
+              <div class="ecg-line" aria-hidden="true">
+                <svg viewBox="0 0 80 18">
+                  <path d="M0 9 L24 9 L28 3 L33 16 L38 2 L43 12 L46 9 L80 9" fill="none" stroke="#f1536d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sliders below 3D Heart -->
+        <div class="mixer heart-mixer">
+          <label>
+            <span class="mixer-title">ENERJİM</span>
+            <b id="talkVal">44</b>
+            <input id="talk" type="range" min="0" max="100" value="44" aria-label="Enerjim">
+          </label>
+          <label>
+            <span class="mixer-title">HEYECANIM</span>
+            <b id="annoyVal">73</b>
+            <input id="annoy" type="range" min="0" max="100" value="73" aria-label="Heyecanım">
+          </label>
+          <label>
+            <span class="mixer-title">ARAMIZ</span>
+            <b id="coldVal">58</b>
+            <input id="cold" type="range" min="0" max="100" value="58" aria-label="Aramız">
+          </label>
+        </div>
+
+        <button class="next" id="saveMixer">ayarları kaydet →</button>
+      </section>
+
+      <section class="screen cassette-screen" data-step="4">
+        <div class="eyebrow">03 — GERİ SAR</div><h2>Bir az <em>geri sar.</em></h2>
+        <p class="muted">Kaseti barmağınla sağa-sola sürüşdür.</p>
+        <div class="cassette" id="cassette"><div class="tape-title">TAHİRƏ İÇİN / A YÜZÜ</div><div class="reels"><i></i><i></i></div><div class="tape-window"><span id="rewindText">...</span></div></div>
+        <button class="next" id="cassetteNext" data-next disabled>tapdım →</button>
+      </section>
+
+      <section class="screen music-gate" data-step="5">
+        <div class="headphone-icon">⌁</div><div class="eyebrow">04 — MÜZİK ZAMANI</div>
+        <h2>İndi musiqi <em>vaxtıdır.</em></h2>
+        <p class="lead small">Lovers Rock. Sona qədər yox — amma həqiqətən qulaq as.</p>
+        <button class="primary" data-next>Musiqini aç →</button>
+      </section>
+
+      <section class="screen music" data-step="6">
+        <div class="music-visual"><div class="halo"></div><img id="cover" src="/assets/lovers-rock-cover.jpg" alt="Lovers Rock üçün vizual"><div class="needle"></div></div>
+        <div class="track-row"><div><small>TV Girl</small><h2>Lovers Rock</h2></div><span id="heartToggle">♡</span></div>
+        <audio id="audio" preload="metadata" src="/assets/lovers-rock.mp3"></audio>
+        <div class="seek"><i id="seekFill"></i></div><div class="time"><span id="cur">0:00</span><span id="dur">--:--</span></div>
+        <div class="wave" id="wave"></div>
+        <div class="controls"><button id="back10">−10</button><button id="play" class="play">▶</button><button id="fwd10">+10</button></div>
+        <div class="music-secret" id="musicSecret">psst... cover-ə toxun.</div>
+        <p class="muted center" id="listenMsg">Dinlədikcə növbəti hissə açılacaq.</p>
+        <button class="next" id="musicNext" data-next disabled>KİLİTLİ · %70</button>
+      </section>
+
+      <section class="screen flashlight-screen" data-step="7">
+        <div class="eyebrow">05 — FIND IT</div><h2>Qaranlıqda <em>4 söz</em> gizlənib.</h2>
+        <p class="muted">Barmağını ekranda gəzdir. İşıq səninlə gələcək.</p>
+        <div id="flashArea" class="flash-area"><span style="left:16%;top:22%">bəzən</span><span style="left:63%;top:17%">demədiklərim</span><span style="left:24%;top:67%">mahnıda</span><span style="left:67%;top:72%">qalır</span><div id="torch"></div></div>
+        <div class="found-count"><b id="foundCount">0</b>/4 tapıldı</div><button class="next" id="flashNext" data-next disabled>davam et →</button>
+      </section>
+
+      <section class="screen" data-step="8">
+        <div class="eyebrow">06 — KAZI</div><h2>Burada nəsə <em>var.</em></h2>
+        <div class="scratch-wrap"><div class="scratch-message">“Bunu hazırlayanda neçə dəfə fikrimi dəyişdiyimi bilmirsən.”</div><canvas id="scratch"></canvas></div>
+        <p class="muted center">barmağınla üstünü sil</p><button class="next" id="scratchNext" data-next disabled>gördüm →</button>
+      </section>
+
+      <section class="screen photos" data-step="9">
+        <div class="eyebrow">07 — PHOTO DUMP</div><h2>Bir az <em>visual break.</em></h2>
+        <div class="photo-stack" id="photoStack"><article class="photo p1"><div></div><p>late nights / good songs</p></article><article class="photo p2"><div></div><p>somewhere, sometime</p></article><article class="photo p3"><div></div><p>no context needed</p></article></div>
+        <p class="muted">Kartları sağa-sola at. Hamısını gör.</p><button class="next" id="photosNext" data-next disabled>hamısını gördüm →</button>
+      </section>
+
+      <section class="screen" data-step="10">
+        <div class="eyebrow">08 — PICK A DOOR</div><h2>Bir qapı yox. <em>Üçü də.</em></h2>
+        <div class="doors" id="doors"><button data-door="1"><b>01</b><span>?</span></button><button data-door="2"><b>02</b><span>?</span></button><button data-door="3"><b>03</b><span>?</span></button></div>
+        <div id="doorResult" class="door-result">Birini aç.</div><button class="next" id="doorsNext" data-next disabled>hamısını açdım →</button>
+      </section>
+
+      <section class="screen terminal-screen" data-step="11">
+        <div class="eyebrow">09 — SİSTEM KONTROLÜ</div><h2>Tahirə<span class="red">.exe</span></h2>
+        <div class="terminal" id="terminal"><p>&gt; analysing subject...</p><p>tavır <i><b style="width:100%"></b></i> 100%</p><p>sabır <i><b style="width:31%"></b></i> 31%</p><p>beni görmezden gelme <i><b style="width:94%"></b></i> 94%</p><p>müzik zevki <i><b style="width:97%"></b></i> 97%</p><p class="result">sonuç: karışık, ama hâlâ havalı.</p></div>
+        <button data-next>tamam, bu biraz ayıptı →</button>
+      </section>
+
+      <section class="screen" data-step="12">
+        <div class="eyebrow">10 — BASILI TUT</div><h2>3 saniyə <em>basılı saxla.</em></h2>
+        <button id="holdBtn" class="hold-btn"><span id="holdRing"></span><b id="holdText">BASILI TUT</b></button><p id="holdReveal" class="hold-reveal">tamam... sabrın varmış.</p><button class="next" id="holdNext" data-next disabled>davam →</button>
+      </section>
+
+      <section class="screen maze-screen" data-step="13">
+        <div class="eyebrow">11 — TINY GAME</div><h2>Nöqtəni çıxışa <em>çatdır.</em></h2>
+        <div class="maze" id="maze"><div class="maze-lines"></div><div id="dot" class="dot"></div><div class="exit">ÇIKIŞ</div></div>
+        <p class="muted center">nöqtəni sürüşdür → sağ alt künc</p><button class="next" id="mazeNext" data-next disabled>keçdim →</button>
+      </section>
+
+      <section class="screen insta-screen" data-step="14">
+        <div class="eyebrow">12 — ÇOK ÖNEMLİ BİR KONU</div><div class="insta-card"><small>İSTEK_01</small><h2>Məni Instagramda<br><em>blokdan çıxar.</em></h2><p>Bu düyməni 10 saatlıq development haqqı kimi qəbul edək :)</p><a id="instagramLink" href="https://instagram.com/" target="_blank" rel="noopener">PROFİLİMİ AÇ ↗</a></div>
+        <button data-next>sonra baxaram →</button>
+      </section>
+
+      <section class="screen" data-step="15">
+        <div class="eyebrow">13 — ÇOK CİDDİ BİR SORU</div><h2>Məni <em>sevirsən?</em></h2><p class="muted">Bu hissənin dizaynı dramatikdir. Sualın özü deyil.</p>
+        <div class="love-buttons choices" data-question="love"><button>hə</button><button>yox</button><button>cavab vermirəm :)</button></div><div id="loveReaction" class="reaction"></div><button class="next" data-next disabled>hmm →</button>
+      </section>
+
+      <section class="screen" data-step="16">
+        <div class="eyebrow">14 — KAOS DÜĞMESİ</div><h2>Mən nə qədər <em>əsəbiyəm?</em></h2>
+        <div class="chaos-area" id="chaosArea"><button id="chaosBtn">heç əsəbi deyilsən</button><button id="chaosTruth">çox 😭</button></div><div id="chaosReaction" class="reaction"></div><button class="next" id="chaosNext" data-next disabled>qəbul etdim →</button>
+      </section>
+
+      <section class="screen code-screen" data-step="17">
+        <div class="eyebrow">15 — GİZLİ KOD</div><h2>İpucları yolda <em>gördün.</em></h2><p class="muted">Çətin deyil. Kod: Lovers Rock-un adındakı hərflərin sayı + qapıların sayı.</p>
+        <div class="code-inputs"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div><button id="codeCheck">Yoxla</button><p id="codeMsg"></p><button class="next" id="codeNext" data-next disabled>vault-u aç →</button>
+      </section>
+
+      <section class="screen vault-screen" data-step="18">
+        <div class="eyebrow">16 — ÖZEL KUTU</div><h2><em>ŞU ZAMAN AÇ...</em></h2>
+        <div class="envelopes" id="envelopes"><button data-msg="Əsəbi olanda: 5 dəqiqə heç kimə cavab yazma. Sonra mənə də əsəbiləşə bilərsən.">01 / SİNİRLİYKEN</button><button data-msg="Darıxanda: Lovers Rock-u yenidən aç. Bəlkə bu səhifəni də.">02 / ÖZLEDİĞİNDE</button><button data-msg="İndi: bu qədər gəlmisənsə, artıq saytı bağlamağa haqqın yoxdur :)">03 / ŞİMDİ AÇ</button></div><div id="vaultMsg" class="vault-msg">birini aç</div><button data-next>davam →</button>
+      </section>
+
+      <section class="screen fake-final" data-step="19">
+        <div class="fake-center"><small>OTURUM TAMAMLANDI</small><h2>bu kadardı.</h2><button id="fakeExit">ÇIKIŞ</button></div>
+      </section>
+
+      <section class="screen secret-level" data-step="20">
+        <div class="secret-badge">GİZLİ BÖLÜM</div><h2>Doğrudan bitdiyini<br><em>düşündün?</em></h2><div class="secret-orbit"><span>01</span><span>02</span><span>03</span><b>TAHİRƏ</b></div><button data-next>tamam, devam →</button>
+      </section>
+
+      <section class="screen message-screen" data-step="21">
+        <div class="eyebrow">17 — ŞİMDİ SEN</div><h2>İndi sıra <em>səndədir.</em></h2><p class="muted">İstədiyin qədər qısa və ya uzun yaz.</p><textarea id="message" maxlength="2500" placeholder="buraya yaz..."></textarea><div class="char"><span id="charCount">0</span>/2500</div><button id="sendMessage" class="primary">Göndər →</button><button class="next" id="messageNext" data-next disabled>finala keç →</button>
+      </section>
+
+      <section class="screen final-screen" data-step="22">
+        <div class="final-glow"></div><small>REAL OTURUM TAMAMLANDI</small><h1>TAHİRƏ.</h1><p>Bu qədər gəldiyin üçün sağ ol.</p><div class="final-choice choices" data-question="final"><button>danışaq</button><button>bir kofe borclusan</button><button>bir az vaxt ver</button><button>öz cavabım var</button></div><textarea id="customFinal" class="hidden" placeholder="öz cavabın..."></textarea><button id="saveFinal" class="primary" disabled>bitir</button><p id="finalThanks" class="final-thanks">bunca uğraşa değdi.</p>
+      </section>
+
+      <section class="screen after-final" data-step="23">
+        <div class="eyebrow">18 — BİTTİKTEN SONRA</div>
+        <div class="after-night"></div>
+        <h2>Bir saniye... <em>hemen çıkma.</em></h2>
+        <p>Buraya kadar geldiysen sana küçük bir son sahne daha borçluyum.</p>
+        <div class="after-cards">
+          <button class="after-card" data-after="müzik">Lovers Rock'u bir kez daha aç</button>
+          <button class="after-card" data-after="instagram">Instagram'a uğra</button>
+          <button class="after-card" data-after="mesaj">Bana son bir not bırak</button>
+        </div>
+        <p class="after-note" id="afterNote">Bazen en güzel kısım, bitti sandıktan sonra gelir.</p>
+      </section>
+    </main>
+  </div>
+  <div id="catVisitor" class="cat-visitor" aria-hidden="true">
+    <div class="cat-bubble" id="catBubble">Tahirə Ali'yi seviyor mu acaba?</div>
+    <div class="cat-head"><i class="ear left"></i><i class="ear right"></i><span class="eye e1"></span><span class="eye e2"></span><span class="nose"></span></div>
+  </div>
+  <script src="/assets/three.min.js"></script>
+  <script>window.THREE || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>')</script>
+  <script src="/assets/GLTFLoader.js"></script>
+  <script>(window.THREE && window.THREE.GLTFLoader) || document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"><\/script>')</script>
+  <script src="/script.js"></script>
+</body>
+</html>
