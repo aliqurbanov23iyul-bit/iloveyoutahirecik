@@ -57,6 +57,7 @@ function setupScratch(){
 setTimeout(setupScratch,120);
 
 function scratchPoint(e){
+  $('#scratchReveal')?.classList.add('started');
   const r=canvas.getBoundingClientRect();
   const x=e.clientX-r.left,y=e.clientY-r.top;
   ctx.globalCompositeOperation='destination-out';
