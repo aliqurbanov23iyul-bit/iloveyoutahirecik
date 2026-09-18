@@ -4,7 +4,7 @@ let cfg={instagram_url:'https://instagram.com/',after_music:'Bunu təsadüfən s
 async function loadConfig(){try{const r=await fetch('/api/config');if(r.ok)cfg={...cfg,...await r.json()};$('#instagramLink').href=cfg.instagram_url||cfg.instagramUrl||'https://instagram.com/'}catch(e){}}
 async function save(key,value){try{await fetch('/api/event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({session,key,value})})}catch(e){}}
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1800)}
-function show(n){step=Math.max(1,Math.min(total,n));screens.forEach(s=>s.classList.toggle('active',+s.dataset.step===step));$('#stepText').textContent=String(step).padStart(2,'0')+' / '+String(total).padStart(2,'0');$('#progress').style.width=(step/total*100)+'%';scrollTo({top:0,behavior:'smooth'});save('progress',step);window.onStepChange?.(step)}
+function show(n){step=Math.max(1,Math.min(total,n));screens.forEach((s,i)=>s.classList.toggle('active',i===step-1));$('#stepText').textContent=String(step).padStart(2,'0')+' / '+String(total).padStart(2,'0');$('#progress').style.width=(step/total*100)+'%';scrollTo({top:0,behavior:'smooth'});save('progress',step);window.onStepChange?.(step)}
 $$('[data-next]').forEach(b=>b.addEventListener('click',()=>show(step+1)));
 $$('.choices').forEach(group=>{$$('button',group).forEach(btn=>btn.addEventListener('click',()=>{$$('button',group).forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');const next=group.parentElement.querySelector('.next');if(next)next.disabled=false;save(group.dataset.question,btn.textContent.trim());if(group.dataset.question==='love'){$('#loveReaction').textContent=btn.textContent.trim()==='yox'?'hmm... bunu admin görəcək 😭':btn.textContent.trim()==='hə'?'tamam. bunu unutmayacağım.':'peki, kabul :)'}if(group.dataset.question==='final'){$('#saveFinal').disabled=false;if(btn.textContent.includes('öz cavab'))$('#customFinal').classList.remove('hidden')}}))});
 // mixer
@@ -560,7 +560,7 @@ setInterval(()=>{ if(Math.random()>.38) visitCat(); }, 24000);
 
 // Final bitince yeni bölüm açılır
 $('#saveFinal')?.addEventListener('click',()=>{
-  setTimeout(()=>show(23), 1500);
+  setTimeout(()=>show(24), 1500);
 });
 $$('.after-card').forEach(btn=>btn.addEventListener('click',()=>{
   const type=btn.dataset.after;
