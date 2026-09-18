@@ -138,9 +138,19 @@
       </section>
 
       <section class="screen" data-step="8">
-        <div class="eyebrow">06 — KAZI</div><h2>Burada nəsə <em>var.</em></h2>
-        <div class="scratch-wrap"><div class="scratch-message">“Bunu hazırlayanda neçə dəfə fikrimi dəyişdiyimi bilmirsən.”</div><canvas id="scratch"></canvas></div>
-        <p class="muted center">barmağınla üstünü sil</p><button class="next" id="scratchNext" data-next disabled>gördüm →</button>
+        <div class="eyebrow">06 — KAZI KAZAN</div><h2>Şansını <em>yoxla.</em></h2>
+        <div class="scratch-wrap">
+          <div class="scratch-reveal">
+            <span class="scratch-kicker">GİZLİ MESAJ</span>
+            <strong>Tahirə, bunu hazırlayanda neçə dəfə fikrimi dəyişdiyimi bilmirsən.</strong>
+            <small>amma bu hissəni saxladım :)</small>
+          </div>
+          <canvas id="scratch" aria-label="Kazı kazan kartı"></canvas>
+          <div class="scratch-hint" id="scratchHint"><span>↔</span> barmağınla kazı</div>
+        </div>
+        <div class="scratch-progress"><i id="scratchProgress"></i></div>
+        <p class="muted center" id="scratchStatus">Kartın ən az 55%-ni aç.</p>
+        <button class="next" id="scratchNext" data-next disabled>davam et →</button>
       </section>
 
       <section class="screen photos" data-step="9">
