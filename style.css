@@ -388,3 +388,8 @@
 /* scratch message must not be visible before the user starts scratching */
 .scratch-reveal{visibility:hidden;opacity:0}
 .scratch-reveal.started{visibility:visible;opacity:1}
+
+/* Kazı kazan: smooth reveal + guaranteed continuation */
+.scratch-wrap canvas{transition:opacity 1.6s cubic-bezier(.22,.7,.2,1)}
+.scratch-wrap canvas.completed{opacity:0;pointer-events:none}
+.scratch-reveal.started{transition:opacity .35s ease}
