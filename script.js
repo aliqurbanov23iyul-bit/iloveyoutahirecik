@@ -19,14 +19,19 @@ audio.addEventListener('loadedmetadata',()=>$('#dur').textContent=fmt(audio.dura
 // flashlight
 const fa=$('#flashArea'),torch=$('#torch');const seen=new Set();function flashMove(e){const r=fa.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;torch.style.left=x+'px';torch.style.top=y+'px';$$('span',fa).forEach((s,i)=>{const sr=s.getBoundingClientRect(),cx=sr.left-r.left+sr.width/2,cy=sr.top-r.top+sr.height/2;if(Math.hypot(cx-x,cy-y)<85){s.classList.add('seen');seen.add(i)}});$('#foundCount').textContent=seen.size;if(seen.size===4){$('#flashNext').disabled=false;save('hidden_words',true)}}fa.addEventListener('pointermove',flashMove);fa.addEventListener('pointerdown',flashMove);
 // scratch
-const canvas=$('#scratch'),ctx=canvas.getContext('2d',{willReadFrequently:true});
-let scratchDrawing=false,scratchUnlocked=false,scratchCheckTimer=0;
+const canvas=$('#scratch');
+const ctx=canvas.getContext('2d',{willReadFrequently:true});
+let scratchDrawing=false;
+let scratchUnlocked=false;
+let lastScratchPoint=null;
+let scratchCheckTimer=0;
 
 function setupScratch(){
   const r=canvas.getBoundingClientRect();
   const d=Math.min(window.devicePixelRatio||1,2);
-  canvas.width=Math.round(r.width*d);
-  canvas.height=Math.round(r.height*d);
+
+  canvas.width=Math.max(1,Math.round(r.width*d));
+  canvas.height=Math.max(1,Math.round(r.height*d));
   ctx.setTransform(d,0,0,d,0,0);
   ctx.globalCompositeOperation='source-over';
 
@@ -37,12 +42,16 @@ function setupScratch(){
   ctx.fillStyle=g;
   ctx.fillRect(0,0,r.width,r.height);
 
-  ctx.globalAlpha=.22;
-  for(let i=0;i<110;i++){
-    const x=(i*67)%r.width,y=(i*43)%r.height;
+  ctx.globalAlpha=.18;
+  for(let i=0;i<95;i++){
+    const x=(i*67)%r.width;
+    const y=(i*43)%r.height;
     ctx.fillStyle=i%2?'#fff':'#12060a';
-    ctx.beginPath();ctx.arc(x,y,Math.max(1,(i%4)),0,Math.PI*2);ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x,y,1+(i%3),0,Math.PI*2);
+    ctx.fill();
   }
+
   ctx.globalAlpha=1;
   ctx.fillStyle='#fff';
   ctx.textAlign='center';
@@ -53,39 +62,97 @@ function setupScratch(){
   ctx.font='500 12px system-ui,sans-serif';
   ctx.fillStyle='#ffd8e0';
   ctx.fillText('parmağınla üst qatı sil',r.width/2,r.height/2+49);
+
+  scratchUnlocked=false;
+  lastScratchPoint=null;
+  $('#scratchProgress').style.width='0%';
+  $('#scratchStatus').textContent='Kartı yavaş-yavaş kazı. Mesaj açıldıqca davam düyməsi aktivləşəcək.';
 }
-setTimeout(setupScratch,120);
+setTimeout(setupScratch,150);
+
+function eraseCircle(x,y){
+  ctx.save();
+  ctx.globalCompositeOperation='destination-out';
+  ctx.beginPath();
+  ctx.arc(x,y,25,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,0,0,.72)';
+  ctx.fill();
+  ctx.restore();
+}
 
 function scratchPoint(e){
   $('#scratchReveal')?.classList.add('started');
-  const r=canvas.getBoundingClientRect();
-  const x=e.clientX-r.left,y=e.clientY-r.top;
-  ctx.globalCompositeOperation='destination-out';
-  const grad=ctx.createRadialGradient(x,y,5,x,y,31);
-  grad.addColorStop(0,'rgba(0,0,0,1)');
-  grad.addColorStop(.72,'rgba(0,0,0,.96)');
-  grad.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=grad;ctx.beginPath();ctx.arc(x,y,32,0,Math.PI*2);ctx.fill();
   $('#scratchHint')?.classList.add('hide');
-  clearTimeout(scratchCheckTimer);scratchCheckTimer=setTimeout(checkScratch,45);
+
+  const r=canvas.getBoundingClientRect();
+  const p={x:e.clientX-r.left,y:e.clientY-r.top};
+
+  if(lastScratchPoint){
+    const dx=p.x-lastScratchPoint.x;
+    const dy=p.y-lastScratchPoint.y;
+    const dist=Math.hypot(dx,dy);
+    const parts=Math.max(1,Math.ceil(dist/10));
+    for(let i=1;i<=parts;i++){
+      eraseCircle(lastScratchPoint.x+dx*i/parts,lastScratchPoint.y+dy*i/parts);
+    }
+  }else{
+    eraseCircle(p.x,p.y);
+  }
+
+  lastScratchPoint=p;
+  clearTimeout(scratchCheckTimer);
+  scratchCheckTimer=setTimeout(checkScratch,70);
 }
+
 function checkScratch(){
-  if(scratchUnlocked)return;
-  const w=canvas.width,h=canvas.height,data=ctx.getImageData(0,0,w,h).data;
+  const w=canvas.width;
+  const h=canvas.height;
+  if(!w||!h)return;
+
+  const data=ctx.getImageData(0,0,w,h).data;
   let clear=0,total=0;
-  const step=24;
-  for(let y=0;y<h;y+=step)for(let x=0;x<w;x+=step){total++;if(data[(y*w+x)*4+3]<45)clear++}
-  const pct=Math.min(100,Math.round(clear/total*100));
+  const stepPx=Math.max(8,Math.round((window.devicePixelRatio||1)*12));
+
+  for(let y=0;y<h;y+=stepPx){
+    for(let x=0;x<w;x+=stepPx){
+      total++;
+      if(data[(y*w+x)*4+3]<170)clear++;
+    }
+  }
+
+  const pct=Math.min(100,Math.round(clear/Math.max(1,total)*100));
   $('#scratchProgress').style.width=pct+'%';
-  $('#scratchStatus').textContent=pct<55?'%'+pct+' açıldı — davam et':'Mesaj açıldı ✓';
-  if(pct>=55){
-    scratchUnlocked=true;canvas.classList.add('finished');
-    $('#scratchNext').disabled=false;save('scratch_opened',{percent:pct});
+
+  if(pct<35){
+    $('#scratchStatus').textContent='%'+pct+' açıldı — biraz daha kazı';
+    return;
+  }
+
+  if(!scratchUnlocked){
+    scratchUnlocked=true;
+    $('#scratchNext').disabled=false;
+    $('#scratchStatus').textContent='Mesaj açıldı ✓';
+    canvas.classList.add('completed');
+    save('scratch_opened',{percent:pct});
   }
 }
-canvas.addEventListener('pointerdown',e=>{scratchDrawing=true;canvas.setPointerCapture?.(e.pointerId);scratchPoint(e)});
-canvas.addEventListener('pointermove',e=>{if(scratchDrawing)scratchPoint(e)});
-['pointerup','pointercancel','pointerleave'].forEach(t=>canvas.addEventListener(t,()=>{scratchDrawing=false;checkScratch()}));
+
+canvas.addEventListener('pointerdown',e=>{
+  scratchDrawing=true;
+  lastScratchPoint=null;
+  canvas.setPointerCapture?.(e.pointerId);
+  scratchPoint(e);
+});
+canvas.addEventListener('pointermove',e=>{
+  if(scratchDrawing)scratchPoint(e);
+});
+['pointerup','pointercancel'].forEach(type=>canvas.addEventListener(type,e=>{
+  scratchDrawing=false;
+  lastScratchPoint=null;
+  try{canvas.releasePointerCapture?.(e.pointerId)}catch{}
+  checkScratch();
+}));
+
 // photos
 let photosSeen=0;$$('.photo').reverse().forEach(card=>{let sx=0;card.addEventListener('pointerdown',e=>{sx=e.clientX;card.setPointerCapture?.(e.pointerId)});card.addEventListener('pointerup',e=>{if(Math.abs(e.clientX-sx)>45){card.classList.add('gone');photosSeen++;save('photo_seen',photosSeen);if(photosSeen>=3)$('#photosNext').disabled=false}})});
 // doors
