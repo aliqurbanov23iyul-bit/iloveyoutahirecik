@@ -384,3 +384,7 @@
 .quiet-love p{font-family:'DM Sans',system-ui,sans-serif;font-size:clamp(31px,8vw,52px);line-height:1.05;letter-spacing:-.04em;font-weight:700;margin:0 0 13px;color:#f4eef0}
 .quiet-love strong{display:block;font-size:15px;font-weight:500;color:#b9afb3;margin-top:8px}
 .quiet-love small{display:block;margin-top:30px;color:#655c60;font:11px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
+
+/* scratch message must not be visible before the user starts scratching */
+.scratch-reveal{visibility:hidden;opacity:0}
+.scratch-reveal.started{visibility:visible;opacity:1}
