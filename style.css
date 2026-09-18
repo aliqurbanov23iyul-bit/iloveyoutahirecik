@@ -422,3 +422,15 @@
 .photo-explain p{font-size:17px;line-height:1.45;margin:8px 0 5px;color:#eee6e9}
 .photo-explain small{color:#82777b;line-height:1.5}
 #photosNext.ready{border-color:#f1536d;box-shadow:0 0 22px #f1536d18}
+
+/* Instagramdan dolayı boş foto kartları */
+.photos .photo-intro{color:#8f8589;margin-top:-6px}
+.photos .photo-stack{height:430px;margin:24px 0 28px;perspective:900px}
+.photos .photo{background:#0b090a;color:#f5eef0;border:1px solid #38252b;border-radius:10px;padding:10px}
+.photos .missing-photo{height:100%;background:radial-gradient(circle at 50% 42%,#35111a 0,#11090c 50%,#080708 78%);border:1px dashed #66303d;display:flex;align-items:center;justify-content:center;position:relative}
+.photos .missing-photo span{position:absolute;left:18px;top:17px;font:600 11px ui-monospace,monospace;color:#7d5b63;letter-spacing:.14em}
+.photos .missing-photo b{font:700 13px ui-monospace,monospace;letter-spacing:.2em;color:#f1536d}
+.photos .photo-explain{border-left:2px solid #f1536d;padding:4px 0 4px 16px;margin:8px 0 24px}
+.photos .photo-explain span{font:700 10px ui-monospace,monospace;letter-spacing:.17em;color:#f1536d}
+.photos .photo-explain p{font-size:17px;line-height:1.45;margin:8px 0 5px;color:#eee6e9}
+.photos .photo-explain small{color:#82777b;line-height:1.5}
