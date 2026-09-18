@@ -376,3 +376,11 @@
 .love-note small{color:#766b70;margin-top:28px;z-index:1}
 .love-note .eyebrow{z-index:1}
 @keyframes lovePulse{50%{transform:scale(1.28);opacity:.55}}
+
+/* quieter love note — intentionally not a giant final card */
+.love-note-screen{justify-content:center!important}
+.quiet-love{margin:34px 0 48px;padding:54px 4px 48px;border-top:1px solid #2b2225;border-bottom:1px solid #2b2225;position:relative}
+.quiet-love .love-line{display:block;width:42px;height:2px;background:var(--red);box-shadow:0 0 14px #f1536d66;margin-bottom:32px}
+.quiet-love p{font-family:'DM Sans',system-ui,sans-serif;font-size:clamp(31px,8vw,52px);line-height:1.05;letter-spacing:-.04em;font-weight:700;margin:0 0 13px;color:#f4eef0}
+.quiet-love strong{display:block;font-size:15px;font-weight:500;color:#b9afb3;margin-top:8px}
+.quiet-love small{display:block;margin-top:30px;color:#655c60;font:11px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
