@@ -25,6 +25,7 @@ let scratchDrawing=false;
 let scratchUnlocked=false;
 let lastScratchPoint=null;
 let scratchCheckTimer=0;
+let scratchDistance=0;
 
 function setupScratch(){
   const r=canvas.getBoundingClientRect();
@@ -65,6 +66,10 @@ function setupScratch(){
 
   scratchUnlocked=false;
   lastScratchPoint=null;
+  scratchDistance=0;
+  $('#scratchReveal')?.classList.remove('started','revealed');
+  canvas.classList.remove('completed');
+  $('#scratchNext').disabled=true;
   $('#scratchProgress').style.width='0%';
   $('#scratchStatus').textContent='Kartı yavaş-yavaş kazı. Mesaj açıldıqca davam düyməsi aktivləşəcək.';
 }
@@ -81,7 +86,6 @@ function eraseCircle(x,y){
 }
 
 function scratchPoint(e){
-  $('#scratchReveal')?.classList.add('started');
   $('#scratchHint')?.classList.add('hide');
 
   const r=canvas.getBoundingClientRect();
@@ -91,6 +95,7 @@ function scratchPoint(e){
     const dx=p.x-lastScratchPoint.x;
     const dy=p.y-lastScratchPoint.y;
     const dist=Math.hypot(dx,dy);
+    scratchDistance += Math.min(dist,80);
     const parts=Math.max(1,Math.ceil(dist/10));
     for(let i=1;i<=parts;i++){
       eraseCircle(lastScratchPoint.x+dx*i/parts,lastScratchPoint.y+dy*i/parts);
@@ -105,36 +110,26 @@ function scratchPoint(e){
 }
 
 function checkScratch(){
-  const w=canvas.width;
-  const h=canvas.height;
-  if(!w||!h)return;
+  if(scratchUnlocked)return;
 
-  const data=ctx.getImageData(0,0,w,h).data;
-  let clear=0,total=0;
-  const stepPx=Math.max(8,Math.round((window.devicePixelRatio||1)*12));
+  const r=canvas.getBoundingClientRect();
+  const target=Math.max(650,r.width*3.2);
+  const pct=Math.min(100,Math.round((scratchDistance/target)*100));
 
-  for(let y=0;y<h;y+=stepPx){
-    for(let x=0;x<w;x+=stepPx){
-      total++;
-      if(data[(y*w+x)*4+3]<170)clear++;
-    }
-  }
-
-  const pct=Math.min(100,Math.round(clear/Math.max(1,total)*100));
   $('#scratchProgress').style.width=pct+'%';
 
-  if(pct<35){
-    $('#scratchStatus').textContent='%'+pct+' açıldı — biraz daha kazı';
+  if(pct<45){
+    $('#scratchStatus').textContent='%'+pct+' — kazımaya devam et';
     return;
   }
 
-  if(!scratchUnlocked){
-    scratchUnlocked=true;
-    $('#scratchNext').disabled=false;
-    $('#scratchStatus').textContent='Mesaj açıldı ✓';
-    canvas.classList.add('completed');
-    save('scratch_opened',{percent:pct});
-  }
+  scratchUnlocked=true;
+  $('#scratchStatus').textContent='Tamamdır — mesaj açılıyor ✓';
+  $('#scratchProgress').style.width='100%';
+  $('#scratchReveal')?.classList.add('started','revealed');
+  $('#scratchNext').disabled=false;
+  canvas.classList.add('completed');
+  save('scratch_opened',{progress:pct});
 }
 
 canvas.addEventListener('pointerdown',e=>{
