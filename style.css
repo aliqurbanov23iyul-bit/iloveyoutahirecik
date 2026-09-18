@@ -401,3 +401,24 @@
 .scratch-wrap canvas.completed{opacity:0!important;pointer-events:none!important;transition:opacity 1.15s ease!important}
 #scratchNext:disabled{opacity:.35;pointer-events:none}
 #scratchNext:not(:disabled){opacity:1;pointer-events:auto}
+
+/* photo section — intentionally empty because Instagram block */
+.photos .photo-intro{color:#8f8589;margin-top:-6px}
+.photo-stack{height:430px!important;margin:24px 0 28px!important;perspective:900px}
+.photo{inset:16px 28px!important;background:#0b090a!important;color:#f5eef0!important;padding:10px!important;border:1px solid #38252b!important;border-radius:10px!important;box-shadow:0 28px 70px #000b!important;transform-origin:50% 110%;will-change:transform,opacity;cursor:grab}
+.photo.dragging{transition:none!important;cursor:grabbing}
+.photo:nth-child(1){transform:rotate(-1.5deg)}
+.photo:nth-child(2){transform:rotate(2.5deg)}
+.photo:nth-child(3){transform:rotate(-3deg)}
+.photo.gone{opacity:0!important;pointer-events:none!important;transition:.42s cubic-bezier(.2,.8,.2,1)!important}
+.missing-photo{height:100%!important;min-height:385px;background:radial-gradient(circle at 50% 42%,#35111a 0,#11090c 48%,#080708 76%)!important;border:1px dashed #66303d;display:flex!important;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.missing-photo:before,.missing-photo:after{content:"";position:absolute;width:170px;height:230px;border:1px solid #ffffff0c;border-radius:50%}
+.missing-photo:after{width:245px;height:300px}
+.missing-photo span{position:absolute;left:18px;top:17px;font:600 11px ui-monospace,monospace;color:#7d5b63;letter-spacing:.14em}
+.missing-photo b{font:700 13px ui-monospace,monospace;letter-spacing:.2em;color:#f1536d;z-index:1}
+.missing-photo i{display:block;width:34px;height:1px;background:#f1536d;margin-top:14px;box-shadow:0 0 12px #f1536d;z-index:1}
+.photo-explain{border-left:2px solid #f1536d;padding:4px 0 4px 16px;margin:8px 0 24px}
+.photo-explain span{font:700 10px ui-monospace,monospace;letter-spacing:.17em;color:#f1536d}
+.photo-explain p{font-size:17px;line-height:1.45;margin:8px 0 5px;color:#eee6e9}
+.photo-explain small{color:#82777b;line-height:1.5}
+#photosNext.ready{border-color:#f1536d;box-shadow:0 0 22px #f1536d18}
